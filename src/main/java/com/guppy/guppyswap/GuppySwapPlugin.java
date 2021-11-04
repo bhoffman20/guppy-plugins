@@ -52,10 +52,16 @@ import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.NPC;
 import net.runelite.api.events.ClientTick;
+import net.runelite.api.events.MenuEntryAdded;
+import net.runelite.api.events.MenuOptionClicked;
+import net.runelite.api.widgets.WidgetID;
+import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.menuentryswapper.ShiftDepositMode;
+import net.runelite.client.plugins.menuentryswapper.ShiftWithdrawMode;
 import net.runelite.client.util.Text;
 
 @Slf4j
@@ -99,55 +105,118 @@ public class GuppySwapPlugin extends Plugin
 		swaps.clear();
 	}
 
+	private void dirtySwapMenuEntryAdded(MenuEntryAdded menuEntryAdded) {
+		final int widgetGroupId = WidgetInfo.TO_GROUP(menuEntryAdded.getActionParam1());
+		final boolean isDepositBoxPlayerInventory = widgetGroupId == WidgetID.DEPOSIT_BOX_GROUP_ID;
+		final boolean isChambersOfXericStorageUnitPlayerInventory = widgetGroupId == WidgetID.CHAMBERS_OF_XERIC_STORAGE_UNIT_INVENTORY_GROUP_ID;
+
+		// Swap default option to "Fill" for essence pouches
+		if(menuEntryAdded.getTarget().contains("pouch")) {
+			if (menuEntryAdded.getType() == MenuAction.CC_OP.getId()
+					&& menuEntryAdded.getIdentifier() == (isDepositBoxPlayerInventory || isChambersOfXericStorageUnitPlayerInventory ? 1 : 2)
+					&& (menuEntryAdded.getOption().startsWith("Deposit-")))
+			{
+				ShiftDepositMode shiftDepositMode = ShiftDepositMode.EXTRA_OP;
+				final int opId = shiftDepositMode.getIdentifier();
+				final int actionId = opId >= 6 ? MenuAction.CC_OP_LOW_PRIORITY.getId() : MenuAction.CC_OP.getId();
+				bankModeSwap(actionId, opId);
+			}
+		}
+
+		// Wear binding necklace and ring of dueling by default
+		if(menuEntryAdded.getTarget().contains("binding") || menuEntryAdded.getTarget().contains("dueling")) {
+			if (menuEntryAdded.getType() == MenuAction.CC_OP.getId()
+					&& menuEntryAdded.getIdentifier() == (isDepositBoxPlayerInventory || isChambersOfXericStorageUnitPlayerInventory ? 1 : 2)
+					&& (menuEntryAdded.getOption().startsWith("Deposit-")))
+			{
+				ShiftDepositMode shiftDepositMode = ShiftDepositMode.EXTRA_OP;
+				final int opId = shiftDepositMode.getIdentifier();
+				final int actionId = opId >= 6 ? MenuAction.CC_OP_LOW_PRIORITY.getId() : MenuAction.CC_OP.getId();
+				bankModeSwap(actionId, opId);
+			}
+		}
+
+		if(menuEntryAdded.getTarget().contains("essence")) {
+			if (menuEntryAdded.getType() == MenuAction.CC_OP.getId()
+					&& menuEntryAdded.getIdentifier() == 1
+					&& menuEntryAdded.getOption().startsWith("Withdraw")) {
+
+				ShiftWithdrawMode shiftWithdrawMode = ShiftWithdrawMode.WITHDRAW_ALL;
+
+				final int actionId, opId;
+				actionId = shiftWithdrawMode.getMenuAction().getId();
+				opId = shiftWithdrawMode.getIdentifier();
+				bankModeSwap(actionId, opId);
+			}
+		}
+
+//		if(menuEntryAdded.getIdentifier() == 557) {
+//
+//
+//			WidgetMenuOption op = new WidgetMenuOption("cast","magic imbue",9764864);
+//			menuManager.addManagedCustomMenu(op);
+//
+//			// WidgetInfo.FIXED_VIEWPORT_MAGIC_TAB
+//			//WidgetMenuOption op = new WidgetMenuOption("cast","magic imbue",9764864);
+//			//menuManager.addManagedCustomMenu(op);
+//		}
+
+	}
+
+	private void dirtySwapMenuClicked(MenuOptionClicked event) {
+		//System.out.println("Clicked ["+ event.getMenuOption() + "] on widget [" + event.getWidgetId() + "] at index [" + event.getSelectedItemIndex() + "] action [" + event.getMenuAction().name() + "] item id [" + event.getId() + "] param0 [" + event.getParam0() + "] param1 [" +event.getParam1() + "]");
+
+		//final Spellbook pook = Spellbook.getByID(client.getVar(Varbits.SPELLBOOK));
+		//System.out.println(pook.getConfigKey());
+
+//		Widget magic = client.getWidget(WidgetInfo.RESIZABLE_VIEWPORT_MAGIC_TAB);
+//		System.out.println(Arrays.asList(magic.getChildren()));
+//
+//		if(event.getId() == 557) {
+//			System.out.println("Earth Rune Clicked");
+//			// WidgetInfo.FIXED_VIEWPORT_MAGIC_TAB
+//
+//
+//		}
+	}
+
 	@VisibleForTesting
 	void setupSwaps()
 	{
-//		swap("talk-to", "buy-plank", config::swapPlank);
-//		swap("talk-to", "claim", config::claimDynamite);
-//		swap("talk-to", "story", config::swapMinigames);
-//		swap("talk-to", "dream", config::swapMinigames);
-//		swap("talk-to", "escort", config::swapMinigames);
-//		swap("talk-to", "join", config::swapMinigames);
-//		swap("talk-to", "join-crew", config::swapMinigames);
-//		swap("talk-to", "priestess zul-gwenwynig", "collect", config::swapZulrahCollect);
-//		swap("talk-to", "rantz","claim-arrows", config::collectRantz);
-//		swap("talk-to", "trade-builders-store", config::swapStore);
-//		swap("talk-to", "give-sword", config::swapGiveSword);
-//		swap("talk-to", "spellbook", config::swapTyssSpellbook);
-//		swap("talk-to", "sand", config::sandBert);
-//		swap("talk-to", "kitten", config::kittenGertrude);
-//
-//		swapMode("talk-to", ZahurMode.class, config::swapZahur);
-//		swapMode("talk-to", CharterShipsMode.class, config::swapTraderCrewmemberLeftClick);
-//
-//		swapMode("wear", DrakansMedallionMode.class, config::swapDrakansMedallionLeftClick);
-//		swapMode("wear", FremennikSeaBootsMode.class, config::swapFremennikSeaBootsLeftClick);
-//		swapMode("wear", MythicalCapeMode.class, config::swapMythicalCapeLeftClick);
-//		swapMode("wield", PharaohSceptreMode.class, config::swapPharaohSceptreLeftClick);
-//		swap("wield", "cast bloom", config::castBloom);
-//		swap("wield", "bloom", config::castBloom);
-//		swapMode("activate", ObeliskMode.class, config::swapTeleportToDestination);
-//		swapMode("check", NMZBarrelMode.class, config::swapNMZBarrelLeftClick);
-//		swap("ardougne", "edgeville", config::swapWildernessLever);
-//
-//		swapContains("attack", target -> target.startsWith("hoop snake"), "stun", config::swapStun);
-//
-//		swapMode("cast", SpellbookSwapMode.class, config::swapSpellbookSwapLeftClick);
-//
-//		swap("open (normal)", "open (private)", config::swapGodWarsDoor);
-//		swap("close", "search", config::swapSearch);
-//		swap("shut", "search", config::swapSearch);
-//		swap("shoo-away", "pet", config::swapStrayDog);
-//		swap("standard", "slayer", config::dagganothKingsLadder);
-//		swap("lletya", "prifddinas", () -> !shiftModifier() && config.swapTeleCrystal());
-//		swap("activate", "quick-exit", config::quickexitSepulchre);
-//		swap("pull", "private", config::privateKBD);
-//		swap("wield", "reminisce", config::kharedstsMemoirs);
-//		swap("look-at", "continue-trek", config::templeTrekkking);
-//		swap("look at", "snow", config::snowSnowglobe);
-//		swap("activate", "use", config::tobCrystal);
+		swap("fill", "giant pouch","empty", config::swapEmptyEssencePouch);
+		swap("fill", "large pouch","empty", config::swapEmptyEssencePouch);
+		swap("fill", "medium pouch","empty", config::swapEmptyEssencePouch);
+		swap("fill", "small pouch","empty", config::swapEmptyEssencePouch);
 
-		swap("fill", "empty", config::emptyEssencePouch);
+		swap("remove", "crafting cape(t)","teleport", config::swapEmptyEssencePouch);
+		swapContains("remove", alwaysTrue(),"tele to poh", config::swapEmptyEssencePouch);
+		swapContains("remove", alwaysTrue(), "duel arena", config::swapEmptyEssencePouch);
+
+		swap("venerate", "lunar", config::swapEmptyEssencePouch);
+		swap("venerate", "arceuus", config::swapEmptyEssencePouch);
+
+	}
+
+	private void bankModeSwap(int entryTypeId, int entryIdentifier)
+	{
+		MenuEntry[] menuEntries = client.getMenuEntries();
+
+		for (int i = menuEntries.length - 1; i >= 0; --i)
+		{
+			MenuEntry entry = menuEntries[i];
+
+			if (entry.getType() == entryTypeId && entry.getIdentifier() == entryIdentifier)
+			{
+				// Raise the priority of the op so it doesn't get sorted later
+				entry.setType(MenuAction.CC_OP.getId());
+
+				menuEntries[i] = menuEntries[menuEntries.length - 1];
+				menuEntries[menuEntries.length - 1] = entry;
+
+				client.setMenuEntries(menuEntries);
+				break;
+			}
+		}
 	}
 
 	private <T extends Enum<?> & SwapMode> void swapMode(String option, Class<T> mode, Supplier<T> enumGet)

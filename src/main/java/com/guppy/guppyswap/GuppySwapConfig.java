@@ -70,13 +70,14 @@ public interface GuppySwapConfig extends Config
 
 
 	// ============================ CONFIG ITEMS ============================
+
 	@ConfigItem(
-		keyName = "emptyEssencePouch",
-		name = "Empty Essence Pouch",
-		description = "Change the left click option to Empty for Essence Pouches.",
-		section = shadySection
+			keyName = "swapEmptyEssencePouch",
+			name = "Empty Essence Pouch",
+			description = "Empty Essence Pouch",
+			section = shadySection
 	)
-	default boolean emptyEssencePouch()
+	default boolean swapEmptyEssencePouch()
 	{
 		return true;
 	}
