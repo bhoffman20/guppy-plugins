@@ -22,29 +22,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.guppy.guppyswap;
+package net.runelite.client.plugins.guppyswap;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.runelite.api.MenuAction;
 
 @Getter
 @RequiredArgsConstructor
-public enum WithdrawMode
+public enum DepositMode
 {
-	WITHDRAW_1("Withdraw-1", MenuAction.CC_OP, 2, 1),
-	WITHDRAW_5("Withdraw-5", MenuAction.CC_OP, 3, 2),
-	WITHDRAW_10("Withdraw-10", MenuAction.CC_OP, 4, 3),
-	WITHDRAW_X("Withdraw-X", MenuAction.CC_OP, 5, 5),
-	WITHDRAW_ALL("Withdraw-All", MenuAction.CC_OP_LOW_PRIORITY, 7, 4),
-	// chambers of xeric storage units do not have an "all-but-1" option or a "placeholder" option, so these options will choose "Withdraw-all"
-	// choose "Withdraw-all" instead when using the storage unit.
-	WITHDRAW_ALL_BUT_1("Withdraw-All-But-1", MenuAction.CC_OP_LOW_PRIORITY, 8, 4),
-	WITHDRAW_PLACEHOLDER("Placeholder", MenuAction.CC_OP_LOW_PRIORITY, 9, 4),
-	OFF("Off", MenuAction.UNKNOWN, 0, 0);
+	DEPOSIT_1("Deposit-1", 3, 2, 1),
+	DEPOSIT_5("Deposit-5", 4, 3, 2),
+	DEPOSIT_10("Deposit-10", 5, 4, 3),
+	DEPOSIT_X("Deposit-X", 6, 6, 5),
+	DEPOSIT_ALL("Deposit-All", 8, 5, 4),
+	EXTRA_OP("Eat/Wield/Etc.", 9, 9, 0),
+	OFF("Off", 0, 0, 0),
+	FILL("Fill",10,0,0);
+
 	private final String name;
-	private final MenuAction menuAction;
 	private final int identifier;
+	private final int identifierDepositBox;
 	private final int identifierChambersStorageUnit;
 
 	@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Adam <Adam@sigterm.info>
+ * Copyright (c) 2020, Zach <https://github.com/zacharydwaller>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,18 +22,34 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.guppy.guppyswap;
+package net.runelite.client.plugins.guppyswap;
 
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import lombok.Value;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.runelite.api.MenuAction;
 
-@Value
-class Swap
+@Getter
+@RequiredArgsConstructor
+public enum WithdrawMode
 {
-	private Predicate<String> optionPredicate;
-	private Predicate<String> targetPredicate;
-	private String swappedOption;
-	private Supplier<Boolean> enabled;
-	private boolean strict;
+	WITHDRAW_1("Withdraw-1", MenuAction.CC_OP, 2, 1),
+	WITHDRAW_5("Withdraw-5", MenuAction.CC_OP, 3, 2),
+	WITHDRAW_10("Withdraw-10", MenuAction.CC_OP, 4, 3),
+	WITHDRAW_X("Withdraw-X", MenuAction.CC_OP, 5, 5),
+	WITHDRAW_ALL("Withdraw-All", MenuAction.CC_OP_LOW_PRIORITY, 7, 4),
+	// chambers of xeric storage units do not have an "all-but-1" option or a "placeholder" option, so these options will choose "Withdraw-all"
+	// choose "Withdraw-all" instead when using the storage unit.
+	WITHDRAW_ALL_BUT_1("Withdraw-All-But-1", MenuAction.CC_OP_LOW_PRIORITY, 8, 4),
+	WITHDRAW_PLACEHOLDER("Placeholder", MenuAction.CC_OP_LOW_PRIORITY, 9, 4),
+	OFF("Off", MenuAction.UNKNOWN, 0, 0);
+	private final String name;
+	private final MenuAction menuAction;
+	private final int identifier;
+	private final int identifierChambersStorageUnit;
+
+	@Override
+	public String toString()
+	{
+		return name;
+	}
 }

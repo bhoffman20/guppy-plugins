@@ -1,4 +1,4 @@
-package com.guppy.guppyswap;
+package net.runelite.client.plugins.guppyswap;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;

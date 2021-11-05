@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Zach <https://github.com/zacharydwaller>
+ * Copyright (c) 2020, Adam <Adam@sigterm.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,32 +22,18 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.guppy.guppyswap;
+package net.runelite.client.plugins.guppyswap;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import lombok.Value;
 
-@Getter
-@RequiredArgsConstructor
-public enum DepositMode
+@Value
+class Swap
 {
-	DEPOSIT_1("Deposit-1", 3, 2, 1),
-	DEPOSIT_5("Deposit-5", 4, 3, 2),
-	DEPOSIT_10("Deposit-10", 5, 4, 3),
-	DEPOSIT_X("Deposit-X", 6, 6, 5),
-	DEPOSIT_ALL("Deposit-All", 8, 5, 4),
-	EXTRA_OP("Eat/Wield/Etc.", 9, 9, 0),
-	OFF("Off", 0, 0, 0),
-	FILL("Fill",10,0,0);
-
-	private final String name;
-	private final int identifier;
-	private final int identifierDepositBox;
-	private final int identifierChambersStorageUnit;
-
-	@Override
-	public String toString()
-	{
-		return name;
-	}
+	private Predicate<String> optionPredicate;
+	private Predicate<String> targetPredicate;
+	private String swappedOption;
+	private Supplier<Boolean> enabled;
+	private boolean strict;
 }
