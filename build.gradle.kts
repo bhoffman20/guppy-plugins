@@ -10,13 +10,15 @@ plugins {
     checkstyle
 }
 
+project.extra["GithubUrl"] = "https://github.com/bhoffman20/guppy-plugins"
+
 apply<BootstrapPlugin>()
 apply<VersionPlugin>()
 
 subprojects {
     group = "com.guppy"
 
-    project.extra["GithubUrl"] = "https://github.com/bhoffman20/guppy-plugins"
+
     project.extra["PluginProvider"] = "bhoffman20"
     project.extra["ProjectUrl"] = "https://github.com/bhoffman20/guppy-plugins"
     project.extra["PluginLicense"] = "GNU General Public License v3.0"

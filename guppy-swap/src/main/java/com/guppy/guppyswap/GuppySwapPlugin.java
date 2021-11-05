@@ -67,7 +67,7 @@ import net.runelite.client.util.Text;
 import org.apache.commons.lang3.ArrayUtils;
 
 @PluginDescriptor(
-	name = "Guppy Swap",
+	name = "guppy-swap",
 	description = "Shady-ass menu swapper",
 	tags = {"npcs", "inventory", "items", "objects"},
 	enabledByDefault = true
