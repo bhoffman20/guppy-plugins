@@ -1,2 +1,0 @@
-# GuppySwap
-Eat my ass
