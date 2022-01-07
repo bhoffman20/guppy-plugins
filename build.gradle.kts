@@ -38,7 +38,7 @@ plugins {
     java
 }
 
-project.extra["GithubUrl"] = "https://github.com/openosrs/runelite"
+project.extra["GithubUrl"] = "https://github.com/bhoffman20/guppy-plugins"
 
 apply<BootstrapPlugin>()
 
@@ -69,7 +69,7 @@ subprojects {
     apply<JavaPlugin>()
     apply<JavaLibraryPlugin>()
 
-    val oprsVersion = "4.15.1"
+    val oprsVersion = "4.18.0"
 
     dependencies {
         annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.16")

@@ -165,4 +165,12 @@ public interface GuppySwapConfig extends Config
 			section = shadySection
 	)
 	default boolean swapQuickAltarSpellbooks() { return true; }
+
+	@ConfigItem(
+			keyName = "swapPickpocket",
+			name = "Swap Talk-to and Pickpocket",
+			description = "Pickpocket instead of talk",
+			section = shadySection
+	)
+	default boolean swapPickpocket() { return true; }
 }

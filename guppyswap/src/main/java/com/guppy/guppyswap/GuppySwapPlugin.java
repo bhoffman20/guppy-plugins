@@ -157,7 +157,7 @@ public class GuppySwapPlugin extends Plugin
 	{
 		if (config.shiftClickCustomization())
 		{
-			enableCustomization();
+			//enableCustomization();
 		}
 
 		setupSwaps();
@@ -177,6 +177,7 @@ public class GuppySwapPlugin extends Plugin
 		swap("fill", "small pouch","empty", config::swapEmptyEssencePouch);
 
 		swap("remove", "crafting cape(t)","teleport", config::swapWornTeleportItems);
+		swap("talk-to", alwaysTrue(),"pickpocket", config::swapPickpocket);
 		swapContains("remove", alwaysTrue(),"tele to poh", config::swapWornTeleportItems);
 		swapContains("remove", alwaysTrue(), "duel arena", config::swapWornTeleportItems);
 
@@ -385,11 +386,11 @@ public class GuppySwapPlugin extends Plugin
 
 		for (MenuEntry entry : entries)
 		{
-			final MenuAction menuAction = MenuAction.of(entry.getType());
+			final MenuAction menuAction = entry.getType();
 
 			if (ITEM_MENU_TYPES.contains(menuAction) && entry.getIdentifier() == itemId)
 			{
-				entry.setType(MenuAction.RUNELITE.getId());
+				entry.setType(MenuAction.RUNELITE);
 
 				if (shiftClickAction == menuAction)
 				{
@@ -398,13 +399,13 @@ public class GuppySwapPlugin extends Plugin
 			}
 		}
 
-		final MenuEntry resetShiftClickEntry = new MenuEntry();
-		resetShiftClickEntry.setOption(RESET);
-		resetShiftClickEntry.setTarget(MENU_TARGET);
-		resetShiftClickEntry.setIdentifier(itemId);
-		resetShiftClickEntry.setParam1(widgetId);
-		resetShiftClickEntry.setType(MenuAction.RUNELITE.getId());
-		client.setMenuEntries(ArrayUtils.addAll(entries, resetShiftClickEntry));
+//		final MenuEntry resetShiftClickEntry = new MenuEntry();
+//		resetShiftClickEntry.setOption(RESET);
+//		resetShiftClickEntry.setTarget(MENU_TARGET);
+//		resetShiftClickEntry.setIdentifier(itemId);
+//		resetShiftClickEntry.setParam1(widgetId);
+//		resetShiftClickEntry.setType(MenuAction.RUNELITE);
+//		client.setMenuEntries(ArrayUtils.addAll(entries, resetShiftClickEntry));
 	}
 
 	@Subscribe
@@ -421,10 +422,10 @@ public class GuppySwapPlugin extends Plugin
 		{
 			MenuEntry entry = menuEntries[i];
 
-			if (entry.getType() == entryTypeId && entry.getIdentifier() == entryIdentifier)
+			if (entry.getType().getId() == entryTypeId && entry.getIdentifier() == entryIdentifier)
 			{
 				// Raise the priority of the op so it doesn't get sorted later
-				entry.setType(MenuAction.CC_OP.getId());
+				entry.setType(MenuAction.CC_OP);
 
 				menuEntries[i] = menuEntries[menuEntries.length - 1];
 				menuEntries[menuEntries.length - 1] = entry;
@@ -491,7 +492,7 @@ public class GuppySwapPlugin extends Plugin
 	private void swapMenuEntry(int index, MenuEntry menuEntry)
 	{
 		final int eventId = menuEntry.getIdentifier();
-		final MenuAction menuAction = MenuAction.of(menuEntry.getType());
+		final MenuAction menuAction = menuEntry.getType();
 		final String option = Text.removeTags(menuEntry.getOption()).toLowerCase();
 		final String target = Text.removeTags(menuEntry.getTarget()).toLowerCase();
 		final NPC hintArrowNpc = client.getHintArrowNpc();
@@ -689,18 +690,18 @@ public class GuppySwapPlugin extends Plugin
 	private void refreshShiftClickCustomizationMenus()
 	{
 		removeShiftClickCustomizationMenus();
-		if (configuringShiftClick)
-		{
-			menuManager.addManagedCustomMenu(FIXED_INVENTORY_TAB_SAVE);
-			menuManager.addManagedCustomMenu(RESIZABLE_BOTTOM_LINE_INVENTORY_TAB_SAVE);
-			menuManager.addManagedCustomMenu(RESIZABLE_INVENTORY_TAB_SAVE);
-		}
-		else
-		{
-			menuManager.addManagedCustomMenu(FIXED_INVENTORY_TAB_CONFIGURE);
-			menuManager.addManagedCustomMenu(RESIZABLE_BOTTOM_LINE_INVENTORY_TAB_CONFIGURE);
-			menuManager.addManagedCustomMenu(RESIZABLE_INVENTORY_TAB_CONFIGURE);
-		}
+//		if (configuringShiftClick)
+//		{
+//			menuManager.addManagedCustomMenu(FIXED_INVENTORY_TAB_SAVE);
+//			menuManager.addManagedCustomMenu(RESIZABLE_BOTTOM_LINE_INVENTORY_TAB_SAVE);
+//			menuManager.addManagedCustomMenu(RESIZABLE_INVENTORY_TAB_SAVE);
+//		}
+//		else
+//		{
+//			menuManager.addManagedCustomMenu(FIXED_INVENTORY_TAB_CONFIGURE);
+//			menuManager.addManagedCustomMenu(RESIZABLE_BOTTOM_LINE_INVENTORY_TAB_CONFIGURE);
+//			menuManager.addManagedCustomMenu(RESIZABLE_INVENTORY_TAB_CONFIGURE);
+//		}
 	}
 
 	private boolean shiftModifier()

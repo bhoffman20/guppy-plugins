@@ -25,7 +25,7 @@ import ProjectVersions.openosrsVersion
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.1"
+version = "0.0.5"
 
 project.extra["PluginName"] = "Guppy Swap" // This is the name that is used in the external plugin manager panel
 project.extra["PluginDescription"] = "Swapper" // This is the description that is used in the external plugin manager panel
