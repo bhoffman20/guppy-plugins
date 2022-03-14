@@ -181,7 +181,7 @@ public class GuppySwapPlugin extends Plugin
 		swapContains("remove", alwaysTrue(),"tele to poh", config::swapWornTeleportItems);
 		swapContains("remove", alwaysTrue(), "duel arena", config::swapWornTeleportItems);
 
-		swap("use", "Iron ore","drop", config::swapDropIron);
+		swap("use", "iron ore","drop", config::swapDropIron);
 
 		//Spellbook pook = Spellbook.getByID(client.getVar(Varbits.SPELLBOOK));
 //		swap("venerate", "lunar", () -> 3 == pook.getId());
