@@ -173,4 +173,12 @@ public interface GuppySwapConfig extends Config
 			section = shadySection
 	)
 	default boolean swapPickpocket() { return true; }
+
+	@ConfigItem(
+			keyName = "swapDropIron",
+			name = "Drop Iron ore",
+			description = "One-Click Drop Iron ore",
+			section = shadySection
+	)
+	default boolean swapDropIron() { return true; }
 }

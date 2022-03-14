@@ -69,7 +69,7 @@ subprojects {
     apply<JavaPlugin>()
     apply<JavaLibraryPlugin>()
 
-    val oprsVersion = "4.18.0"
+    val oprsVersion = "4.20.3"
 
     dependencies {
         annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.16")
